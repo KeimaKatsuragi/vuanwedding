@@ -1,0 +1,7 @@
+/*
+  Access-Control-Allow-Origin: *
+  X-Frame-Options: ALLOWALL
+  
+/images/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=31536000
