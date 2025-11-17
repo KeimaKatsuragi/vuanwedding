@@ -8,7 +8,7 @@ const envelopeComponent = document.getElementById("envelopeComponent");
 
 // Configuration - Google Apps Script URL
 const SCRIPT_URL =
-  "https://script.google.com/macros/s/AKfycbzPDRX-zX09TgU3qjZt1GXhZccu1bqR4MDKAS3GyK5k5Ap5Yzg2LiwarRgZdLVbOfu_/exec";
+  "https://script.google.com/macros/s/AKfycbyHWGJS-58vuBe6Ky1LeZDeFNTZPvGS6xmeWN-ij7Se4qjoFtd3DVQxgy1Bbz5As3DEoA/exec";
 
 // Wedding date: 30/11/2025 13:30:00
 const weddingDate = new Date("2025-11-30T13:30:00").getTime();
@@ -744,6 +744,20 @@ function setupWishesMarquee() {
   );
   if (items.length === 0) return;
 
+  // Check if content is taller than container BEFORE setting up marquee
+  const displayHeight = display.clientHeight || display.offsetHeight || 0;
+  const contentHeight = list.scrollHeight;
+
+  // If content fits within the container, don't scroll - align to bottom
+  if (contentHeight <= displayHeight) {
+    // Align content to bottom of container (like messages appearing from below)
+    const offset = Math.max(0, displayHeight - contentHeight);
+    list.style.transform = `translateY(${offset}px)`;
+    cancelWishesMarquee(); // Stop any running animation
+    return;
+  }
+
+  // Content is taller than container, proceed with marquee setup
   // Duplicate original set once to create a seamless loop
   const originals = items.filter((el) => !el.classList.contains("clone"));
   originals.forEach((el) => {
@@ -759,7 +773,6 @@ function setupWishesMarquee() {
 
   // Set initial transform state so content appears to scroll up from the bottom
   // Start the offset near the end of the original content so items enter from below
-  const displayHeight = display.clientHeight || display.offsetHeight || 0;
   // Position the viewport to show the tail of the originals (loopHeight - displayHeight)
   wishesMarqueeOffset = Math.max(0, wishesMarqueeLoopHeight - displayHeight);
   list.style.transform = `translateY(-${wishesMarqueeOffset}px)`;
