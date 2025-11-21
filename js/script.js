@@ -594,9 +594,7 @@ if (wishesForm) {
 
         if (data.result === "success") {
           // Show success message
-          alert(
-            "Cảm ơn bạn đã gửi lời chúc! 💕\nLời chúc của bạn sẽ xuất hiện trong giây lát."
-          );
+          alert("Cảm ơn bạn đã gửi lời chúc! 💕");
 
           // Close modal and reset form
           wishesModal.classList.remove("active");
